@@ -70,6 +70,30 @@ fn match_name(pattern: &str, name: &str) -> bool {
     name.starts_with(name_prefix) && name.ends_with(name_suffix)
 }
 
+/// Declare a named macro template
+///
+/// # Examples
+///
+/// ```
+/// use macro_macro::{macro_macro, macro_template};
+///
+/// macro_template!(NAME = {
+///     #[derive(Clone)] // Macros to add to strut when name matches
+///     struct __ {
+///         /*#[...]*/ __ : !, // Macros to add to field when name and type matches
+///
+///         /*#[...]*/ __ : !, // Macros to add to field when name and type matches
+///     }
+/// });
+///
+/// fn main() {
+///   // ...
+/// }
+/// ```
+///
+/// # Panics
+/// If the template input is not valid.
+///
 #[proc_macro]
 pub fn macro_template(input: TokenStream) -> TokenStream {
     let input_str = input.to_string();
@@ -146,6 +170,28 @@ fn update_fields(fields: &mut Vec<Field>, template_fields: &Vec<&Field>) {
     }
 }
 
+/// Apply macros from a template
+///
+/// The `NAME` must be declared via `macro_template`.
+///
+/// # Examples
+///
+/// ```
+/// use macro_macro::{macro_macro, macro_template};
+///
+/// macro_template!(NAME = {
+///     struct __ { }
+/// });
+///
+/// #[macro_macro(NAME)]
+/// struct Structure {
+///     // ...
+/// }
+///
+/// fn main() {
+///   // ...
+/// }
+/// ```
 #[proc_macro_attribute]
 pub fn macro_macro(args: TokenStream, input: TokenStream) -> TokenStream {
     let template_name = parse_macro_input!(args as TemplateName).name.to_string();
