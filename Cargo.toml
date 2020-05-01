@@ -1,0 +1,19 @@
+[package]
+name = "macro_macro"
+version = "0.1.0"
+authors = ["Steve Jones <steve@iaascream.cloud>"]
+edition = "2018"
+license = "MIT"
+categories = ["rust-patterns"]
+description = "Macro templating library for DRYer structs"
+readme = "README.md"
+repository = "https://github.com/sjones4/macro-macro/"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+lazy_static = "1.4.0"
+parse = "0.1.2"
+quote = "1.0"
+syn = "1.0"
